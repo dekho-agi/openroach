@@ -2,19 +2,8 @@
 # Rolls the unreleased changelog entries into a release, and prints a release's
 # notes.
 #
-#   scripts/changelog.sh roll v0.1.0 "<releaser>" <<'EOF'
-#   <the releaser's message>
-#   EOF
-#       move every changelog/unreleased/*.md into CHANGELOG.md under a v0.1.0
-#       heading, opened by the releaser's message
-#
+#   scripts/changelog.sh roll v0.1.0 "<releaser>" < message
 #   scripts/changelog.sh notes v0.1.0
-#       print the v0.1.0 section, the release notes
-#
-# Every release opens with a message from whoever made it, person or agent, in
-# their own words: who they are, then what they want to say about the release.
-# Each change carries its own entry file, so branches that merge into dev at the
-# same time never conflict over CHANGELOG.md.
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

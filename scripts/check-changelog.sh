@@ -2,9 +2,6 @@
 # Fails when a change touches code without adding a changelog entry.
 #
 #   scripts/check-changelog.sh origin/dev
-#
-# The change is everything on HEAD since it left <base>. Code is the source tree
-# and the build definition, the parts that make up the binary people install.
 set -euo pipefail
 
 [[ $# -eq 1 ]] || { echo "usage: check-changelog.sh <base-ref>" >&2; exit 2; }
@@ -23,5 +20,5 @@ if [[ -n $entries ]]; then
     exit 0
 fi
 
-echo "check-changelog.sh: this change touches code but adds no entry to changelog/unreleased/ (see CONTRIBUTING.md)" >&2
+echo "check-changelog.sh: this change touches code but adds no entry to changelog/unreleased/ (see .agents/release/)" >&2
 exit 1

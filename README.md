@@ -17,11 +17,6 @@ exists for agents to run. Agents and people alike start with
 - **No nonsense, pure business.**
 - **Autonomous, fast, and safe.**
 
-## Non-goals
-
-- A hosted product, or an account you have to sign up for.
-- A chat UI for its own sake.
-
 ## Install
 
 Download the tarball for the latest release from the
@@ -37,7 +32,7 @@ cmake --install build/release --prefix ~/.local
 
 ## Contributing
 
-Pull requests go into the `dev` branch. [`CONTRIBUTING.md`](CONTRIBUTING.md)
+Pull requests go into the `dev` branch. [`.agents/contributing/`](.agents/contributing/)
 describes the process and the contribution terms, and [`AGENTS.md`](AGENTS.md)
 the rules the code is written to; both apply to people and agents alike.
 

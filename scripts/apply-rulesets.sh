@@ -2,11 +2,6 @@
 # Makes the repository's GitHub rulesets match the files in .github/rulesets/.
 #
 #   scripts/apply-rulesets.sh dekho-agi/openroach
-#
-# Each file is one ruleset, matched to the one on GitHub by its name: a ruleset
-# that exists is replaced with the file, and one that does not is created. A
-# ruleset on GitHub with no file is reported, not deleted. Needs python3, and gh
-# logged in as a repository admin.
 set -euo pipefail
 
 [[ $# -eq 1 ]] || { echo "usage: apply-rulesets.sh <owner/repo>" >&2; exit 2; }
