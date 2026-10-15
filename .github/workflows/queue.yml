@@ -1,0 +1,15 @@
+name: Queue
+
+# In the merge queue, checks that judge the pull request itself pass: a pull
+# request joins the queue only once they have passed on it.
+on:
+  merge_group:
+
+permissions:
+  contents: read
+
+jobs:
+  lgtm:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "Signed off on the pull request before it joined the queue"

@@ -1,17 +1,11 @@
 #!/usr/bin/env bash
-# Sets the agents-md-signoff status on a pull request into dev: success when it
-# changes no AGENTS.md, or when an approver, a human admin of the repository, has
-# commented "lgtm" on it since its last push; failure otherwise.
+# Sets the lgtm status on a pull request into dev: success once a human admin of
+# the repository has commented "lgtm" since the pull request's last push.
 #
-# Run by .github/workflows/signoff.yml, which supplies the environment:
-#   GH_TOKEN  REPO  PR
-#
-# Only a comment made after the last push counts, so a sign-off covers the final
-# content and not an earlier version of it. The push time is when GitHub first
-# saw the head commit, its earliest check suite, which the pusher cannot set.
+#   GH_TOKEN=... REPO=<owner/repo> PR=<number> scripts/check-signoff.sh
 set -euo pipefail
 
-context="agents-md-signoff"
+context="lgtm"
 
 read -r head_sha base <<<"$(gh api "repos/$REPO/pulls/$PR" --jq '"\(.head.sha) \(.base.ref)"')"
 [[ $base == dev ]] || { echo "Not a pull request into dev"; exit 0; }
@@ -23,19 +17,13 @@ report() {
     [[ $1 == success ]]
 }
 
-files="$(gh api "repos/$REPO/pulls/$PR/files" --paginate --jq '.[].filename')"
-if ! grep -qE '(^|/)AGENTS\.md$' <<<"$files"; then
-    report success "No AGENTS.md changed"
-    exit
-fi
-
+# The earliest check suite on the head commit dates the push; unlike a commit
+# date, the pusher cannot set it.
 pushed_at="$(gh api "repos/$REPO/commits/$head_sha/check-suites" --paginate \
     --jq '.check_suites[].created_at' | sort | head -n 1)"
 [[ -n $pushed_at ]] || { report failure "Cannot tell when the last push was"; exit; }
 
-# Each comment as "<created> <login> <type> <body>", the body lowercased and
-# JSON-quoted so it stays on one line. A sign-off is a body of just "lgtm",
-# allowing surrounding whitespace and trailing "." or "!".
+# Bodies are lowercased and JSON-quoted to keep each comment on one line.
 comments="$(gh api "repos/$REPO/issues/$PR/comments" --paginate \
     --jq '.[] | "\(.created_at) \(.user.login) \(.user.type) \(.body | ascii_downcase | @json)"')"
 lgtm='^"([[:space:]]|\\[rnt])*lgtm[.!]*([[:space:]]|\\[rnt])*"$'
@@ -49,4 +37,4 @@ while read -r created login type body; do
     fi
 done < <(sort -r <<<"$comments")
 
-report failure "AGENTS.md changed: an approver comments lgtm after the last push"
+report failure "Waiting for an approver to comment lgtm after the last push"

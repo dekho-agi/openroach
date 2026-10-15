@@ -1,8 +1,7 @@
 name: Sign-off
 
-# pull_request_target and issue_comment run this workflow and its script as they
-# stand on the default branch, main, so a pull request cannot change the check
-# that judges it. The pull request's own code is never checked out or run here.
+# Both triggers run this file as it stands on main, so a pull request cannot
+# change the check that judges it; its own code is never checked out here.
 on:
   pull_request_target:
     types: [opened, synchronize, reopened]
@@ -18,12 +17,12 @@ permissions:
   statuses: write
 
 jobs:
-  signoff:
+  check-lgtm:
     if: github.event_name == 'pull_request_target' || github.event.issue.pull_request
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: A change to AGENTS.md carries an approver's lgtm
+      - name: An approver has commented lgtm since the last push
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
