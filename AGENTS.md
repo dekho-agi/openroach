@@ -55,6 +55,13 @@ Until then, and after:
   the maintainer decides, and the commit that adds it gives the reason.
 - One module, one job. A file that grows a second job should be split.
 - Comments explain why, not what.
+- Code and comments read as if they were written once, for what the code does
+  now. A comment never records history: no "changed from", "previously", "now
+  uses", "fixed", "added in", "no longer", dates, version numbers or issue
+  numbers. History belongs in commit messages and PR descriptions.
+- A change rewrites the comments it touches so they describe the code as it now
+  stands, and deletes any that no longer apply. Do not append a note to an
+  existing comment to explain the change.
 - Every number has one owner. A limit, default or measured figure lives in one
   place, and everything else refers to it rather than restating it.
 
