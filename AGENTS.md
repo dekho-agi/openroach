@@ -79,7 +79,10 @@ Until then, and after:
 - A change rewrites the comments it touches so they describe the code as it now
   stands, and deletes any that no longer apply. Do not append a note to an
   existing comment to explain the change.
-- The one comment that carries an author and a date is a TODO. It is written in
+- A TODO comment marks something in the code that was deliberately left for
+  later. The maintainer sweeps the TODOs from time to time to decide what to do
+  with each, so a TODO says enough on its own line to be judged in that sweep.
+  It is the one comment that carries an author and a date, and it is written in
   exactly this form, in the file's own comment syntax:
 
   ```cpp
@@ -183,6 +186,9 @@ release, and nothing but a tag does.
   `gdaroach/first-release` adds `first-release.md`.
 - An entry is one or more Markdown bullets that describe the change for someone
   who uses OpenRoach.
+- On a pull request into `dev`, CI fails a change to code that adds no entry.
+  `scripts/check-changelog.sh` owns what counts as code; run it locally with
+  `scripts/check-changelog.sh origin/dev`.
 - One file per change means branches never conflict over the changelog.
   `CHANGELOG.md` is written only by `scripts/changelog.sh roll`, never by hand.
 
