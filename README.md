@@ -23,6 +23,19 @@ It is written in C++ and ships as a binary you install.
 - A hosted product, or an account you have to sign up for.
 - A chat UI for its own sake.
 
+## Install
+
+Download the tarball for the latest release from the
+[releases page](https://github.com/dekho-agi/openroach/releases), check it
+against its `.sha256` file, and extract it. The binary is `bin/openroach`.
+
+To build from source, you need CMake 3.25 or newer and a C++20 compiler:
+
+```sh
+cmake --workflow --preset release
+cmake --install build/release --prefix ~/.local
+```
+
 ## Contributing
 
 Read [`AGENTS.md`](AGENTS.md) first; it applies to people as well as agents.
