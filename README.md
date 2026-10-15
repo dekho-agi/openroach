@@ -1,14 +1,8 @@
 # OpenRoach
 
+[![Latest release](https://img.shields.io/github/v/release/dekho-agi/openroach?sort=semver&display_name=tag)](https://github.com/dekho-agi/openroach/releases/latest)
+
 A performance-driven agent harness for agentic engineering, built for homelabbers.
-
-OpenRoach runs coding and operations agents against models you host yourself, on
-hardware you own. It is for people who run their own GPUs, VMs and clusters and
-want an agent that works with them rather than through someone else's cloud.
-It is written in C++ and ships as a binary you install.
-
-> **Status: pre-alpha.** There is no code yet. This repository currently holds the
-> project's intent and its working agreements ([`AGENTS.md`](AGENTS.md)).
 
 ## AI first
 
@@ -19,11 +13,9 @@ exists for agents to run. Agents and people alike start with
 
 ## Goals
 
-- **Local first.**
-- **Performance you can measure.**
-- **Built for engineering work.**
-- **Safe by default.**
-- **Small and readable.**
+- **Open harness.**
+- **No nonsense, pure business.**
+- **Autonomous, fast, and safe.**
 
 ## Non-goals
 
