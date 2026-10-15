@@ -1,2 +1,0 @@
-- The `openroach` binary prints `hello world`.
-- Releases are built and published from a version tag on `main`.

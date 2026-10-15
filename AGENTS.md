@@ -161,10 +161,15 @@ organisation or deployment:
 A release is made in four steps, by the maintainer:
 
 1. On a branch cut from `dev`, roll the unreleased changelog entries into the
-   version being released, then merge that branch into `dev`:
+   version being released, then merge that branch into `dev`. Whoever makes the
+   release, person or agent, opens it with a message in their own words: who
+   they are, then what they want to say about this release. It heads the
+   version's section in `CHANGELOG.md` and its release notes.
 
    ```sh
-   scripts/changelog.sh roll v0.1.0
+   scripts/changelog.sh roll v0.1.0 "<your name>" <<'EOF'
+   <who you are, then your piece>
+   EOF
    ```
 
 2. Promote `dev` by merging it into `main`. CI runs on `main`.
@@ -201,6 +206,10 @@ the `human-signoff` label. `.github/workflows/signoff.yml` turns that label into
 the required `agents-md-signoff` status, and a new push to the pull request
 removes the label, so a sign-off always covers exactly what will merge. Agents
 never apply or remove that label, and never set that status.
+
+GitHub runs a `pull_request_target` workflow as it stands on the default branch,
+`main`, so the check that judges a pull request is always the released one, and
+a change to the check takes effect when it is released.
 
 ## Task list
 
