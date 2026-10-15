@@ -1,0 +1,1 @@
+- The documents install to `share/doc/openroach/`, so they no longer collide with other packages' files.
