@@ -1,31 +1,45 @@
 # OpenRoach
 
+[![Latest release](https://img.shields.io/github/v/release/dekho-agi/openroach?sort=semver&display_name=tag)](https://github.com/dekho-agi/openroach/releases/latest)
+
 A performance-driven agent harness for agentic engineering, built for homelabbers.
 
-OpenRoach runs coding and operations agents against models you host yourself, on
-hardware you own. It is for people who run their own GPUs, VMs and clusters and
-want an agent that works with them rather than through someone else's cloud.
-It is written in C++ and ships as a binary you install.
+## AI first
 
-> **Status: pre-alpha.** There is no code yet. This repository currently holds the
-> project's intent and its working agreements ([`AGENTS.md`](AGENTS.md)).
+OpenRoach is an AI-first project, built by agents and for agents. Most of its
+code is written by AI agents under the maintainer's direction, and the harness
+exists for agents to run. Agents and people alike start with
+[`AGENTS.md`](AGENTS.md).
 
 ## Goals
 
-- **Local first.**
-- **Performance you can measure.**
-- **Built for engineering work.**
-- **Safe by default.**
-- **Small and readable.**
+- **Open harness.**
+- **No nonsense, pure business.**
+- **Autonomous, fast, and safe.**
 
 ## Non-goals
 
 - A hosted product, or an account you have to sign up for.
 - A chat UI for its own sake.
 
+## Install
+
+Download the tarball for the latest release from the
+[releases page](https://github.com/dekho-agi/openroach/releases), check it
+against its `.sha256` file, and extract it. The binary is `bin/openroach`.
+
+To build from source, you need CMake 3.25 or newer and a C++20 compiler:
+
+```sh
+cmake --workflow --preset release
+cmake --install build/release --prefix ~/.local
+```
+
 ## Contributing
 
-Read [`AGENTS.md`](AGENTS.md) first; it applies to people as well as agents.
+Pull requests go into the `dev` branch. [`CONTRIBUTING.md`](CONTRIBUTING.md)
+describes the process and the contribution terms, and [`AGENTS.md`](AGENTS.md)
+the rules the code is written to; both apply to people and agents alike.
 
 ## Author
 

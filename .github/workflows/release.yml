@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    env:
+      PACKAGE: openroach-${{ github.ref_name }}-linux-x86_64
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: The tag is on main
+        run: git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+
+      - name: Release notes
+        run: scripts/changelog.sh notes "$GITHUB_REF_NAME" > notes.md
+
+      - name: Build and test
+        run: cmake --workflow --preset release
+
+      - name: Package
+        run: |
+          cmake --install build/release --prefix "dist/$PACKAGE"
+          tar -C dist -czf "dist/$PACKAGE.tar.gz" "$PACKAGE"
+          (cd dist && sha256sum "$PACKAGE.tar.gz" > "$PACKAGE.tar.gz.sha256")
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "$GITHUB_REF_NAME"
+          "dist/$PACKAGE.tar.gz" "dist/$PACKAGE.tar.gz.sha256"
+          --verify-tag --title "$GITHUB_REF_NAME" --notes-file notes.md
