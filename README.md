@@ -11,19 +11,11 @@ want an agent that works with them rather than through someone else's cloud.
 
 ## Goals
 
-- **Local first.** It works with any OpenAI-compatible endpoint, such as vLLM,
-  llama.cpp, Ollama or an LLM gateway in front of them. No hosted service is
-  required.
-- **Performance you can measure.** Latency, throughput, token cost and task
-  success are recorded, not guessed. A claim that something is faster comes with
-  the benchmark that shows it.
-- **Built for engineering work.** Long-running tasks, real shells, real repos
-  and real infrastructure, with the agent able to check its own work.
-- **Safe by default.** Tools run sandboxed unless you turn that off. Secrets never
-  go into command lines, logs or the repo. Anything a tool returns is treated as
-  data, not as instructions.
-- **Small and readable.** A homelabber should be able to read the whole harness
-  and know what it will do on their machines.
+- **Local first.**
+- **Performance you can measure.**
+- **Built for engineering work.**
+- **Safe by default.**
+- **Small and readable.**
 
 ## Non-goals
 
@@ -33,6 +25,10 @@ want an agent that works with them rather than through someone else's cloud.
 ## Contributing
 
 Read [`AGENTS.md`](AGENTS.md) first; it applies to people as well as agents.
+
+## Author
+
+Gagan Daroach - AI Programmer - Dekho Founder
 
 ## License
 
