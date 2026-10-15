@@ -155,6 +155,9 @@ organisation or deployment:
 - Work happens on a branch of your own, cut from `dev` and named
   `<your handle>/<topic>`, such as `gdaroach/first-release`. When the work is
   ready and its CI is green, it merges into `dev` through a pull request.
+- A branch is deleted when its pull request merges into `dev`
+  (`.github/workflows/cleanup.yml`). Further work starts on a new branch cut
+  from `dev`, never on the merged one; delete your local copy too.
 - Agents commit only to their own branch. They do not push, open a pull request,
   merge, promote or tag until the maintainer asks.
 
