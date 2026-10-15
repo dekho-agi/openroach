@@ -1,0 +1,24 @@
+# Installs the build into a scratch prefix and checks that every file lands
+# where a package manager expects it: the binary in bin/, and the documents in
+# share/doc/openroach/, where they cannot collide with another package's.
+#
+#   cmake -DBUILD_DIR=<build dir> -DPREFIX=<scratch prefix> -P install-layout.cmake
+
+file(REMOVE_RECURSE "${PREFIX}")
+execute_process(
+    COMMAND "${CMAKE_COMMAND}" --install "${BUILD_DIR}" --prefix "${PREFIX}"
+    RESULT_VARIABLE result
+    OUTPUT_QUIET)
+if(NOT result EQUAL 0)
+    message(FATAL_ERROR "cmake --install failed: ${result}")
+endif()
+
+foreach(path IN ITEMS
+        bin/openroach
+        share/doc/openroach/LICENSE
+        share/doc/openroach/README.md
+        share/doc/openroach/CHANGELOG.md)
+    if(NOT EXISTS "${PREFIX}/${path}")
+        message(FATAL_ERROR "not installed: ${path}")
+    endif()
+endforeach()
