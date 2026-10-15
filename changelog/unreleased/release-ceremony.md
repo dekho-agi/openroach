@@ -1,1 +1,0 @@
-- Every release opens with a message from whoever made it, in their own words.
