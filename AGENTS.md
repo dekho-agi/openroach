@@ -128,6 +128,22 @@ organisation or deployment:
   `198.51.100.0/24` and `203.0.113.0/24` (RFC 5737).
 - If you are unsure whether something is private, leave it out and ask.
 
+## Branches and releases
+
+- `main` is public and holds the latest release. Nothing is committed to it
+  directly; it changes only when `dev` is promoted.
+- `dev` is where work comes together. Nothing is committed to it directly
+  either.
+- Work happens on a branch of your own, cut from `dev`. When the work is ready
+  and its CI is green, it merges into `dev` through a pull request.
+- From time to time the maintainer promotes `dev` by merging it into `main`, and
+  CI runs on `main`.
+- When `main`'s CI is green, the maintainer pushes a version tag on `main`. That
+  tag triggers the release pipeline, which builds and publishes the binary.
+  Nothing else makes a release.
+- Agents commit only to their own branch. They do not push, open a pull request,
+  merge, promote or tag until the maintainer asks.
+
 ## Commits and pull requests
 
 - Small commits, each doing one thing. The subject is imperative and under 72
