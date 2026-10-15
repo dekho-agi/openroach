@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
-# Sets the agents-md-signoff status on a pull request's head commit: success when
-# the pull request changes no AGENTS.md, or when a human admin of the repository
-# has applied the human-signoff label since its last push; failure otherwise.
+# Sets the agents-md-signoff status on a pull request into dev: success when it
+# changes no AGENTS.md, or when an approver, a human admin of the repository, has
+# commented "lgtm" on it since its last push; failure otherwise.
 #
 # Run by .github/workflows/signoff.yml, which supplies the environment:
-#   GH_TOKEN  REPO  PR  HEAD_SHA  EVENT
+#   GH_TOKEN  REPO  PR
 #
-# New commits withdraw a sign-off: on a push, the label is removed, so a human
-# signs off on the final content and not on an earlier version of it.
+# Only a comment made after the last push counts, so a sign-off covers the final
+# content and not an earlier version of it. The push time is when GitHub first
+# saw the head commit, its earliest check suite, which the pusher cannot set.
 set -euo pipefail
 
-label="human-signoff"
 context="agents-md-signoff"
 
+read -r head_sha base <<<"$(gh api "repos/$REPO/pulls/$PR" --jq '"\(.head.sha) \(.base.ref)"')"
+[[ $base == dev ]] || { echo "Not a pull request into dev"; exit 0; }
+
 report() {
-    gh api --method POST "repos/$REPO/statuses/$HEAD_SHA" \
+    gh api --method POST "repos/$REPO/statuses/$head_sha" \
         -f state="$1" -f context="$context" -f description="$2" >/dev/null
     echo "$2"
     [[ $1 == success ]]
@@ -26,24 +29,24 @@ if ! grep -qE '(^|/)AGENTS\.md$' <<<"$files"; then
     exit
 fi
 
-if [[ $EVENT == synchronize ]]; then
-    gh api --method DELETE "repos/$REPO/issues/$PR/labels/$label" >/dev/null 2>&1 || true
-fi
+pushed_at="$(gh api "repos/$REPO/commits/$head_sha/check-suites" --paginate \
+    --jq '.check_suites[].created_at' | sort | head -n 1)"
+[[ -n $pushed_at ]] || { report failure "Cannot tell when the last push was"; exit; }
 
-labels="$(gh api "repos/$REPO/issues/$PR/labels" --jq '.[].name')"
-if ! grep -qx "$label" <<<"$labels"; then
-    report failure "AGENTS.md changed: a maintainer applies the $label label"
-    exit
-fi
+# Each comment as "<created> <login> <type> <body>", the body lowercased and
+# JSON-quoted so it stays on one line. A sign-off is a body of just "lgtm",
+# allowing surrounding whitespace and trailing "." or "!".
+comments="$(gh api "repos/$REPO/issues/$PR/comments" --paginate \
+    --jq '.[] | "\(.created_at) \(.user.login) \(.user.type) \(.body | ascii_downcase | @json)"')"
+lgtm='^"([[:space:]]|\\[rnt])*lgtm[.!]*([[:space:]]|\\[rnt])*"$'
 
-signer="$(gh api "repos/$REPO/issues/$PR/events" --paginate \
-    --jq ".[] | select(.event == \"labeled\" and .label.name == \"$label\") | \"\(.actor.login) \(.actor.type)\"" | tail -n 1)"
-login="${signer% *}"
-type="${signer#* }"
-permission="$(gh api "repos/$REPO/collaborators/$login/permission" --jq .permission 2>/dev/null || true)"
-if [[ $type != User || $permission != admin ]]; then
-    report failure "The $label label must come from a human admin, not $login"
-    exit
-fi
+while read -r created login type body; do
+    [[ -n $created && $created > $pushed_at && $type == User && $body =~ $lgtm ]] || continue
+    permission="$(gh api "repos/$REPO/collaborators/$login/permission" --jq .permission 2>/dev/null || true)"
+    if [[ $permission == admin ]]; then
+        report success "Signed off by $login"
+        exit
+    fi
+done < <(sort -r <<<"$comments")
 
-report success "Signed off by $login"
+report failure "AGENTS.md changed: an approver comments lgtm after the last push"
