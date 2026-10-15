@@ -201,15 +201,16 @@ protection is a change to those files, which the maintainer applies with
 ## Changes to AGENTS.md
 
 A pull request into `dev` that changes any `AGENTS.md` merges only with a
-human's sign-off: an admin of the repository reads the final version and applies
-the `human-signoff` label. `.github/workflows/signoff.yml` turns that label into
-the required `agents-md-signoff` status, and a new push to the pull request
-removes the label, so a sign-off always covers exactly what will merge. Agents
-never apply or remove that label, and never set that status.
+human's sign-off. A sign-off is an approver, a human admin of the repository,
+reading the final version and commenting `lgtm` on the pull request.
+`.github/workflows/signoff.yml` turns that comment into the required
+`agents-md-signoff` status. Only a comment made after the pull request's last
+push counts, so a sign-off always covers exactly what will merge. Agents never
+comment `lgtm`, and never set that status.
 
-GitHub runs a `pull_request_target` workflow as it stands on the default branch,
-`main`, so the check that judges a pull request is always the released one, and
-a change to the check takes effect when it is released.
+GitHub runs `pull_request_target` and `issue_comment` workflows as they stand on
+the default branch, `main`, so the check that judges a pull request is always
+the released one, and a change to the check takes effect when it is released.
 
 ## Task list
 
