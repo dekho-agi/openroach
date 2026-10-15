@@ -51,9 +51,17 @@ The language is C++. The C++ standard, supported compilers, build system and
 formatter are chosen by the maintainer and recorded here when they are decided.
 Until then, and after:
 
-- Prefer the standard library. Propose a dependency only when it saves real work;
-  the maintainer decides, and the commit that adds it gives the reason.
-- One module, one job. A file that grows a second job should be split.
+- Object-oriented. Behaviour lives in classes, and each class has one job.
+- One class per file. A class is declared in a `.hpp` and defined in a `.cpp`,
+  and the two sit side by side in the same directory. Related classes are
+  grouped into a module, which is a subtree of the source tree. File names and
+  the tree itself come from the maintainer.
+- Don't repeat yourself. Each piece of logic and each fact has one owner, and
+  everything else calls or refers to it. When the same code appears twice,
+  propose where its one owner should live rather than copying it.
+- Use the C++ standard library first. Propose a third-party dependency only when
+  the standard library cannot do the job; the maintainer decides, and the commit
+  that adds it gives the reason.
 - Comments explain why, not what.
 - Code and comments read as if they were written once, for what the code does
   now. A comment never records history: no "changed from", "previously", "now
