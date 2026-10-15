@@ -1,6 +1,4 @@
-# Installs the build into a scratch prefix and checks that every file lands
-# where a package manager expects it: the binary in bin/, and the documents in
-# share/doc/openroach/, where they cannot collide with another package's.
+# Installs the build into a scratch prefix and checks where each file lands.
 #
 #   cmake -DBUILD_DIR=<build dir> -DPREFIX=<scratch prefix> -P install-layout.cmake
 

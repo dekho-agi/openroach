@@ -1,8 +1,5 @@
 name: Cleanup
 
-# A branch that has merged into dev is done; new work starts on a new branch
-# cut from dev. Only branches in this repository are deleted, never main or dev,
-# and never a branch whose pull request closed without merging.
 on:
   pull_request:
     types: [closed]
