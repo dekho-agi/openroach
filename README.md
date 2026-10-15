@@ -5,6 +5,7 @@ A performance-driven agent harness for agentic engineering, built for homelabber
 OpenRoach runs coding and operations agents against models you host yourself, on
 hardware you own. It is for people who run their own GPUs, VMs and clusters and
 want an agent that works with them rather than through someone else's cloud.
+It is written in C++ and ships as a binary you install.
 
 > **Status: pre-alpha.** There is no code yet. This repository currently holds the
 > project's intent and its working agreements ([`AGENTS.md`](AGENTS.md)).

@@ -19,6 +19,23 @@ talks to any OpenAI-compatible endpoint and runs tools in a sandbox. The goals
 and non-goals are in [`README.md`](README.md): read them before adding a feature,
 and do not add one that a non-goal rules out.
 
+It is written in C++, and the deliverable is a binary that people install. A
+change that makes the binary harder to build, install or run is a regression
+unless the maintainer has decided otherwise.
+
+## Design authority
+
+The maintainer directs the design: every design pattern, every class and object,
+and the layout of the source tree. Agents implement that design; they do not
+invent it.
+
+- Do not add a file, directory, class, interface, abstraction or dependency that
+  the maintainer has not specified.
+- When the work seems to need one, stop, propose it with the reason, and wait
+  for a decision.
+- When the design is silent on a detail, ask. Do not fill the gap with a choice
+  of your own, however conventional.
+
 ## Setup, build and test commands
 
 None yet. The project is pre-alpha and has no code.
@@ -30,11 +47,12 @@ this file when the code it serves is removed.
 
 ## Code style
 
-The language and formatter are chosen with the first code and recorded here.
+The language is C++. The C++ standard, supported compilers, build system and
+formatter are chosen by the maintainer and recorded here when they are decided.
 Until then, and after:
 
-- Prefer the standard library. Add a dependency only when it saves real work, and
-  give the reason in the commit message.
+- Prefer the standard library. Propose a dependency only when it saves real work;
+  the maintainer decides, and the commit that adds it gives the reason.
 - One module, one job. A file that grows a second job should be split.
 - Comments explain why, not what.
 - Every number has one owner. A limit, default or measured figure lives in one
