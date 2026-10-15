@@ -1,6 +1,6 @@
 name: Sign-off
 
-# Both triggers run this file as it stands on main, so a pull request cannot
+# Both triggers run this file as it stands on dev, so a pull request cannot
 # change the check that judges it; its own code is never checked out here.
 on:
   pull_request_target:

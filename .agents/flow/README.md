@@ -7,8 +7,9 @@ How a change travels from a branch to `dev`, and how GitHub enforces it.
 - `main` is public and holds the latest release. Nothing is committed to it
   directly; it changes only when `dev` is promoted, which only an admin does
   (see [`../release/`](../release/)).
-- `dev` is where work comes together. Nothing is committed to it directly
-  either; every change reaches it through a pull request and the merge queue.
+- `dev` is where work comes together, and it is the repository's default
+  branch. Nothing is committed to it directly either; every change reaches it
+  through a pull request and the merge queue.
 - Work happens on a branch of your own, cut from `dev` and named
   `<your handle>/<topic>`, such as `gdaroach/first-release`.
 - A branch is deleted when its pull request merges into `dev`
@@ -36,9 +37,9 @@ exactly what will merge. Agents never comment `lgtm`.
 
 `.github/workflows/signoff.yml` turns that comment into the required `lgtm`
 status. GitHub runs its triggers, `pull_request_target` and `issue_comment`, as
-the workflow stands on the default branch, `main`, so the check that judges a
-pull request is always the released one, and a change to it takes effect when
-it is released.
+the workflow stands on the default branch, `dev`, so a pull request is judged
+by the check already on `dev`, never by its own copy, and a change to the check
+takes effect once it has merged.
 
 ## The merge queue
 
