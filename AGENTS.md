@@ -36,6 +36,12 @@ invent it.
 - When the design is silent on a detail, ask. Do not fill the gap with a choice
   of your own, however conventional.
 
+Public presentation is the maintainer's too. Agents write code, tests, the build
+and CI. The maintainer writes what the public reads first: `README.md`,
+`CONTRIBUTING.md` and the repository's description on GitHub. An agent changes
+those only with wording the maintainer has given or approved; otherwise it
+proposes the wording, in the session or the pull request, and waits.
+
 ## Setup, build and test commands
 
 You need CMake 3.25 or newer and a C++20 compiler. Build and test in one
@@ -181,10 +187,38 @@ release, and nothing but a tag does.
 GitHub enforces this flow with rulesets, defined as code in
 `.github/rulesets/`, one file per ruleset. `main` and `dev` take changes only
 through a pull request, with an approval from the code owner
-(`.github/CODEOWNERS`) and CI green, and can be neither force-pushed nor
+(`.github/CODEOWNERS`), CI green and, on `dev`, a human sign-off for any change
+to an `AGENTS.md`. Neither branch can be force-pushed or
 deleted. Only an admin can create, move or delete a `v*` tag. A change to the
 protection is a change to those files, which the maintainer applies with
 `scripts/apply-rulesets.sh dekho-agi/openroach`; never change it in GitHub's UI.
+
+## Changes to AGENTS.md
+
+A pull request into `dev` that changes any `AGENTS.md` merges only with a
+human's sign-off: an admin of the repository reads the final version and applies
+the `human-signoff` label. `.github/workflows/signoff.yml` turns that label into
+the required `agents-md-signoff` status, and a new push to the pull request
+removes the label, so a sign-off always covers exactly what will merge. Agents
+never apply or remove that label, and never set that status.
+
+## Task list
+
+`TASKS.md` collects ideas and work that lie ahead of where the code is; a TODO
+comment marks a spot in the code, and a task is anything not tied to one. A new
+task is an unchecked item under the heading for the day it was added, followed by
+the name of the person who added it:
+
+```markdown
+## October 15 2026
+
+- [ ] Split the tool schema into loaded sub tool calls - Gagan
+```
+
+Days run oldest first, and a day's heading is written once, so a later task that
+day goes under it. When a task is done, remove it, and remove a heading that has
+no tasks left. Agents add a task only when the person they work for asks, and
+put that person's name on it.
 
 ## Changelog
 

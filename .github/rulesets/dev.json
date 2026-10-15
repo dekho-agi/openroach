@@ -34,7 +34,8 @@
         "strict_required_status_checks_policy": false,
         "required_status_checks": [
           { "context": "build-and-test", "integration_id": 15368 },
-          { "context": "changelog", "integration_id": 15368 }
+          { "context": "changelog", "integration_id": 15368 },
+          { "context": "agents-md-signoff" }
         ]
       }
     }

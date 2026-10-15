@@ -1,0 +1,29 @@
+name: Sign-off
+
+# pull_request_target runs this workflow and its script as they stand on the
+# base branch, so a pull request cannot change the check that judges it. The
+# pull request's own code is never checked out or run here.
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    branches: [dev]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  statuses: write
+
+jobs:
+  signoff:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: A change to AGENTS.md carries a human sign-off
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          EVENT: ${{ github.event.action }}
+        run: scripts/check-signoff.sh
