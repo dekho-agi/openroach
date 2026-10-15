@@ -10,6 +10,13 @@ It is written in C++ and ships as a binary you install.
 > **Status: pre-alpha.** There is no code yet. This repository currently holds the
 > project's intent and its working agreements ([`AGENTS.md`](AGENTS.md)).
 
+## AI first
+
+OpenRoach is an AI-first project, built by agents and for agents. Most of its
+code is written by AI agents under the maintainer's direction, and the harness
+exists for agents to run. Agents and people alike start with
+[`AGENTS.md`](AGENTS.md).
+
 ## Goals
 
 - **Local first.**
@@ -38,7 +45,9 @@ cmake --install build/release --prefix ~/.local
 
 ## Contributing
 
-Read [`AGENTS.md`](AGENTS.md) first; it applies to people as well as agents.
+Pull requests go into the `dev` branch. [`CONTRIBUTING.md`](CONTRIBUTING.md)
+describes the process and the contribution terms, and [`AGENTS.md`](AGENTS.md)
+the rules the code is written to; both apply to people and agents alike.
 
 ## Author
 

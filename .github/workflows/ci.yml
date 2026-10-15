@@ -15,3 +15,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and test
         run: cmake --workflow --preset release
+
+  changelog:
+    if: github.event_name == 'pull_request' && github.base_ref == 'dev'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Code changes carry a changelog entry
+        run: scripts/check-changelog.sh "origin/$GITHUB_BASE_REF"
