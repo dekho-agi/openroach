@@ -178,6 +178,14 @@ A release is made in four steps, by the maintainer:
 Versions are tags of the form `v<major>.<minor>.<patch>`; no other tag starts a
 release, and nothing but a tag does.
 
+GitHub enforces this flow with rulesets, defined as code in
+`.github/rulesets/`, one file per ruleset. `main` and `dev` take changes only
+through a pull request, with an approval from the code owner
+(`.github/CODEOWNERS`) and CI green, and can be neither force-pushed nor
+deleted. Only an admin can create, move or delete a `v*` tag. A change to the
+protection is a change to those files, which the maintainer applies with
+`scripts/apply-rulesets.sh dekho-agi/openroach`; never change it in GitHub's UI.
+
 ## Changelog
 
 - A change that someone using OpenRoach could notice, in the binary, how it
