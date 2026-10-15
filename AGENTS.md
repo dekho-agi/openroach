@@ -62,6 +62,17 @@ Until then, and after:
 - A change rewrites the comments it touches so they describe the code as it now
   stands, and deletes any that no longer apply. Do not append a note to an
   existing comment to explain the change.
+- The one comment that carries an author and a date is a TODO. It is written in
+  exactly this form, in the file's own comment syntax:
+
+  ```cpp
+  // TODO: Split the tool schema into loaded sub tool calls - Gagan October 15 2026
+  ```
+
+  That is `TODO: <description> - <author> <date>`, with the date written as the
+  full month name, the day and the year. The author is the person the TODO is
+  for: an agent puts the name of the person it is working for, never its own.
+  When the TODO is done, delete it.
 - Every number has one owner. A limit, default or measured figure lives in one
   place, and everything else refers to it rather than restating it.
 
